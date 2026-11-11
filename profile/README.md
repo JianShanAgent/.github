@@ -26,6 +26,10 @@
 
 目前线上生产实例服务于[灰机阴阳师 Wiki](https://yys.huijiwiki.com)（已索引约 7,700 篇文档、1.4 万个知识切片与 3,000 张图片）。
 
+下面是管理后台里一条提问的处理过程：问「高铁的三技能叫什么」，它认出「高铁」是大天狗·高天铁羽，查知识库和站内搜索，写结论，复核通过后才发出去。
+
+<p align="center"><img src="https://raw.githubusercontent.com/JianShanAgent/agent-core/main/docs/images/trace.png" alt="管理后台的查证过程页：一条提问的每一步、耗时和最后发给用户的回复" width="860"></p>
+
 <sub>JianShanAgent is an open-source QQ bot framework for MediaWiki sites, featuring direct structured lookups, multi-step RAG with answer verification, reverse image search, incremental wiki sync, and a built-in web console.</sub>
 
 ## 三步跑起来（任选 Python 原生直跑或 Docker）
@@ -36,7 +40,7 @@
 2. **选择你顺手的方式启动**：
    - **方式 A（Python / `uv` 原生直跑，免 Docker）**：安装 [`uv`](https://docs.astral.sh/uv/getting-started/installation/) 后直接执行 `uv sync && uv run jianshanagent`（本地不连 QQ 测试加 `JIANSHANAGENT_DRY_RUN=1`）。
    - **方式 B（Docker Compose 一键启动）**：直接执行 `docker compose up -d --build`，自动拉起机器人、每小时增量同步与 `pgvector` 数据库。
-3. **打开网页后台调试与建库**：浏览器访问 `http://127.0.0.1:8080`（登录令牌自动生成在 `data/admin/token`），在「网页对话」里直接测试问答；需要全量向量检索时执行 `knowledge run / embed / load` 三条命令即可。
+3. **打开网页后台调试与建库**：浏览器访问 `http://127.0.0.1:8080`（登录令牌第一次启动时自动生成：原生运行 `cat data/admin/token`，Docker 运行 `docker compose exec qqbot cat /data/admin/token`），在「网页对话」里直接测试问答；需要全量向量检索时执行 `knowledge run / embed / load` 三条命令即可。
 
 完整操作说明请看 **[`agent-core` 快速开始](https://github.com/JianShanAgent/agent-core#快速开始)**。
 
