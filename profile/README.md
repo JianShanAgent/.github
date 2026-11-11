@@ -1,48 +1,50 @@
-<p align="center"><img src="https://raw.githubusercontent.com/JianShanAgent/.github/main/profile/icon.svg" width="96" alt="JianShanAgent"></p>
+<div align="center">
 
-# JianShanAgent（见山）
+<img src="https://raw.githubusercontent.com/JianShanAgent/.github/main/profile/banner.svg" alt="JianShanAgent 见山：开门见山的 wiki 问答机器人" width="100%">
 
-给 MediaWiki 站点用的 QQ 问答机器人，名字取自「开门见山」。核心只懂 MediaWiki 和 QQ；
-某个 wiki 平台、某个站特有的东西由插件带进来；把它们拼起来指向某一个 wiki 的是实例。
+<p>
+  <a href="https://github.com/JianShanAgent/agent-core#快速开始">快速开始</a> ·
+  <a href="https://github.com/JianShanAgent/agent-core#接上你自己的-wiki">接上你自己的 wiki</a> ·
+  <a href="https://github.com/JianShanAgent/agent-core/blob/main/docs/架构.md">架构</a> ·
+  <a href="https://github.com/JianShanAgent/agent-core/blob/main/docs/插件规范.md">插件规范</a>
+</p>
 
-JianShanAgent is a QQ question-answering bot for MediaWiki sites. The core knows only MediaWiki and QQ;
-anything specific to a wiki platform or a single wiki comes in as a plugin, and an *instance* repository
-pins the pieces together for one deployment. Documentation is in Chinese.
+</div>
 
-组织里不能给仓库分文件夹，仓库按名字前缀和话题标签分层，这里是按层排的目录。
+群里总有人问「这个角色的技能是什么」「上次那个活动奖励有哪些」。答案 wiki 上都有，只是没人想去翻。
 
-## 核心
+**见山**是一个挂在 QQ 上的 wiki 问答机器人：在群里 @ 它问一句，它去 wiki 上把答案找出来，核对过再告诉你，后面附上出处。
+能直接查的不麻烦大模型，拿不准的先查证再开口，发张图它也认得。名字取自「开门见山」。
 
-| 仓库 | 管什么 |
+它为 MediaWiki 而写，现在在线上服务的是[阴阳师 wiki](https://yys.huijiwiki.com)。想给你自己的 wiki 也挂一个，从 [`agent-core`](https://github.com/JianShanAgent/agent-core) 的 README 看起。
+
+<sub>JianShanAgent is a QQ bot that answers questions from a MediaWiki site — direct lookups without an LLM, retrieval-augmented answers that are reviewed before they are sent, and reverse image search. Site-specific behaviour lives in plugins. Documentation is in Chinese.</sub>
+
+## 从哪看起
+
+| 你想 | 去这里 |
 |---|---|
-| [`agent-core`](https://github.com/JianShanAgent/agent-core) | 机器人本体：QQ 网关、七个功能插件、管理后台、部署工具。文档：[架构](https://github.com/JianShanAgent/agent-core/blob/main/docs/架构.md)、[插件规范](https://github.com/JianShanAgent/agent-core/blob/main/docs/插件规范.md)、[部署与运维](https://github.com/JianShanAgent/agent-core/blob/main/docs/部署与运维.md) |
+| 知道它是什么、能做什么、怎么跑起来 | [`agent-core`](https://github.com/JianShanAgent/agent-core)：机器人本体，文档也在这里 |
+| 给自己的 wiki 部署一个 | [`template-instance`](https://github.com/JianShanAgent/template-instance)：一个部署的骨架，复制下来填上 wiki 的地址 |
+| 让它更懂你的 wiki | [`template-site-wiki`](https://github.com/JianShanAgent/template-site-wiki)：站点插件的骨架，多半只要写一份配置 |
+| 好几个 wiki 建在同一个平台上 | [`template-site-platform`](https://github.com/JianShanAgent/template-site-platform)：平台插件的骨架 |
+| 看一个真的在跑的例子 | [`site-huiji`](https://github.com/JianShanAgent/site-huiji)、[`site-huiji-yys`](https://github.com/JianShanAgent/site-huiji-yys)、[`instance-yys`](https://github.com/JianShanAgent/instance-yys)：灰机平台、阴阳师 wiki、和它的部署 |
 
-## 站点插件
+## 它是怎么拼起来的
 
-| 仓库 | 层 | 管什么 |
-|---|---|---|
-| [`site-huiji`](https://github.com/JianShanAgent/site-huiji) | 平台 | 灰机 wiki 平台 |
-| [`site-huiji-yys`](https://github.com/JianShanAgent/site-huiji-yys) | 站（建在灰机上） | 阴阳师 wiki |
+核心只懂 MediaWiki 和 QQ。某个 wiki 平台、某个站特有的东西是插件；把它们拼到一起、指向某一个 wiki 的，是实例。
 
-## 实例
+```mermaid
+flowchart TB
+    I["实例 instance-*<br>服务哪个 wiki · 用哪些插件的哪个版本"]
+    I --> C["核心 agent-core<br>QQ 网关 · 查询 · 知识库 · 查证 · 对话 · 管理后台"]
+    I --> S["站 site-平台-站<br>这个 wiki 的数据、说法、人设"]
+    S --> P["平台 site-平台<br>这类 wiki 共用的接口和约定"]
+    S --> C
+    P --> C
+```
 
-| 仓库 | 管什么 |
-|---|---|
-| [`instance-yys`](https://github.com/JianShanAgent/instance-yys) | 阴阳师 wiki 的 QQ 机器人这个部署 |
+仓库的名字就是按这个分的：`site-` 是站点插件，`instance-` 是部署，`template-` 是新建它们时用的骨架。
+规矩写在[插件规范](https://github.com/JianShanAgent/agent-core/blob/main/docs/插件规范.md)里。
 
-## 模板
-
-新建某一层的仓库时，从对应的模板复制（仓库页面上的「Use this template」）。
-
-| 仓库 | 用来建什么 | 建出来的仓库叫什么 |
-|---|---|---|
-| [`template-site-platform`](https://github.com/JianShanAgent/template-site-platform) | 一个 wiki 平台的插件 | `site-<平台>` |
-| [`template-site-wiki`](https://github.com/JianShanAgent/template-site-wiki) | 一个 wiki 的插件 | `site-<平台>-<站>`，不建在平台上的是 `site-<站>` |
-| [`template-instance`](https://github.com/JianShanAgent/template-instance) | 一个部署 | `instance-<名字>` |
-
-## 约定
-
-- 命名、插件的目录和清单、怎么登记、文档的格式：见[插件规范](https://github.com/JianShanAgent/agent-core/blob/main/docs/插件规范.md)。
-- 话题标签：每个仓库都有 `jianshanagent`、`mediawiki`、`qq-bot`，再按层有 `core`、`site-plugin`、`platform`、`instance`、`template`。
-- 许可：MIT。
-- 新建仓库以后，在这份目录里加一行。
+全部仓库用 [MIT](https://github.com/JianShanAgent/agent-core/blob/main/LICENSE) 许可。
