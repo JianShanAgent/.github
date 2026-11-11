@@ -13,8 +13,7 @@
 
 群里总有人问「这个角色的技能是什么」「上次那个活动奖励有哪些」。答案 wiki 上都有，只是没人想去翻。
 
-**见山**是一个挂在 QQ 上的 wiki 问答机器人：在群里 @ 它问一句，它去 wiki 上把答案找出来，核对过再告诉你，后面附上出处。
-能直接查的不麻烦大模型，拿不准的先查证再开口，发张图它也认得。名字取自「开门见山」。
+**见山**是一个挂在 QQ 上的 wiki 问答机器人：在群里 @ 它问一句，它去 wiki 上把答案找出来，核对过再告诉你，后面附上出处。能直接查的不麻烦大模型，拿不准的先查证再开口，发张图它也认得。名字取自「开门见山」。
 
 它为 MediaWiki 而写，现在在线上服务的是[阴阳师 wiki](https://yys.huijiwiki.com)。想给你自己的 wiki 也挂一个，从 [`agent-core`](https://github.com/JianShanAgent/agent-core) 的 README 看起。
 
@@ -44,7 +43,6 @@ flowchart TB
     P --> C
 ```
 
-仓库的名字就是按这个分的：`site-` 是站点插件，`instance-` 是部署，`template-` 是新建它们时用的骨架。
-规矩写在[插件规范](https://github.com/JianShanAgent/agent-core/blob/main/docs/插件规范.md)里。
+仓库的名字就是按这个分的：`site-` 是站点插件，`instance-` 是部署，`template-` 是新建它们时用的骨架。规矩写在[插件规范](https://github.com/JianShanAgent/agent-core/blob/main/docs/插件规范.md)里。
 
 全部仓库用 [MIT](https://github.com/JianShanAgent/agent-core/blob/main/LICENSE) 许可。
